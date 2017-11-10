@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  elasticsearch:
+    image: elasticsearch:5
+  suricata:
+    build: ./suricata
+    privileged: true
+    network_mode: host
+    environment:
+      - INTERFACE
+    volumes:
+      - log-suricata:/var/log/suricata:z
+  evebox:
+    image: jasonish/evebox:master
+    volumes:
+      - log-suricata:/var/log/suricata:z
+    links:
+      - elasticsearch
+    ports:
+      - 5636:5636
+    command: --input /var/log/suricata/eve.json -e http://elasticsearch:9200
+  curator:
+    build: ./curator
+    links:
+      - elasticsearch
+
+volumes:
+  log-suricata:
