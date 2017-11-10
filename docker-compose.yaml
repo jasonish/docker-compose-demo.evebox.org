@@ -25,5 +25,15 @@ services:
     links:
       - elasticsearch
 
+  # ICS Honeypot - https://github.com/mushorg/conpot
+  conpot:
+    image: honeynet/conpot
+    ports:
+      - 102:102
+      - 502:502
+      - 161:161/udp
+    network_mode: bridge
+    command: conpot --template default
+
 volumes:
   log-suricata:
