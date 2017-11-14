@@ -35,5 +35,13 @@ services:
     network_mode: bridge
     command: conpot --template default
 
+  # MTPot - Mirai/Telnet honeypot.
+  # https://github.com/Cymmetria/MTPot
+  mtpot:
+    build: ./mtpot
+    ports:
+      - "23:23"
+    network_mode: bridge
+
 volumes:
   log-suricata:
