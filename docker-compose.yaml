@@ -1,8 +1,13 @@
 version: "2"
 
 services:
+
   elasticsearch:
-    image: elasticsearch:5
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.4.3
+    environment:
+      - "discovery.type=single-node"
+      - "xpack.security.enabled=false"
+
   suricata:
     build: ./suricata
     privileged: true
@@ -11,6 +16,7 @@ services:
       - INTERFACE
     volumes:
       - log-suricata:/var/log/suricata:z
+
   evebox:
     image: jasonish/evebox:master
     volumes:
@@ -20,6 +26,7 @@ services:
     ports:
       - 5636:5636
     command: --input /var/log/suricata/eve.json -e http://elasticsearch:9200
+
   curator:
     build: ./curator
     links:
