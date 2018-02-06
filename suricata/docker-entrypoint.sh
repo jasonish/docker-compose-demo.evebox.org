@@ -40,6 +40,8 @@ rotate_logs &
 
 interface=$(get_interface)
 
+rm -f /var/run/suricata.pid
+
 exec /usr/sbin/suricata -c /etc/suricata/suricata-demo.yaml \
      -i "${interface}" \
      --pidfile /var/run/suricata.pid
