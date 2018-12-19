@@ -3,10 +3,12 @@ version: "2"
 services:
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.4.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
     environment:
       - "discovery.type=single-node"
       - "xpack.security.enabled=false"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
 
   suricata:
     build: ./suricata
@@ -42,3 +44,4 @@ services:
 
 volumes:
   log-suricata:
+  elasticsearch-data:
