@@ -40,8 +40,13 @@ rotate_logs &
 
 interface=$(get_interface)
 
+homenet=$(hostname  -I | cut -f1 -d' ')
+echo "Setting HOME_NET to ${homenet}."
+sed -e "s/%%HOME_NET%%/${homenet}/g" /etc/suricata/suricata-demo.yaml.in > \
+    /etc/suricata/suricata-demo.yaml
+
 rm -f /var/run/suricata.pid
 
 exec /usr/sbin/suricata -c /etc/suricata/suricata-demo.yaml \
      -i "${interface}" \
-     --pidfile /var/run/suricata.pid
+     --pidfile /var/run/suricata.pid -v
